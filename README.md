@@ -3,7 +3,7 @@
 
 ## Pug (ex Jade)
 ```
-npm install --save-dev gulp del gulp-pug
+npm install --save-dev gulp del gulp-pug gulp-data fs
 ```
 - ### Pug (ex Jade) -- bemto
 ```
@@ -47,7 +47,9 @@ html(lang="en")
 
 ```
 extends include/head.pug
-include mixin/mixin.pug
+//- includes
+include ./include/header.pug
+include ./include/footer.pug
 
 block title 
     title Document Title
@@ -57,13 +59,10 @@ block variable
     - var pageContainerClass = 'page'
 
 block content
-    include ./include/header.pug
-    
-
     +b(class=pageContainerClass)
-        +b.H1 Gulp Clean Project !!!
-            +e.bt
-                +link('### PROJECT ###')
+        +header()
+        
+        +link('### PROJECT ###')
 
-    include ./include/footer.pug
+        +footer()
 ```
