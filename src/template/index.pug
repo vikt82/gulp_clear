@@ -1,0 +1,20 @@
+extends include/head.pug
+include mixin/mixin.pug
+
+block title 
+    title Document Title
+
+block variable
+    - var bodyClass = ''
+    - var pageContainerClass = 'page'
+
+block content
+    include ./include/header.pug
+    
+
+    +b(class=pageContainerClass)
+        +b.H1 Gulp Clean Project !!!
+            +e.bt
+                +link('### PROJECT ###')
+
+    include ./include/footer.pug

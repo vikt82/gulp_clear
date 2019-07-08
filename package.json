@@ -1,0 +1,28 @@
+{
+  "name": "gulp_clear",
+  "version": "1.0.0",
+  "description": "---",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikt82/gulp_clear.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vikt82/gulp_clear/issues"
+  },
+  "homepage": "https://github.com/vikt82/gulp_clear#readme",
+  "devDependencies": {
+    "del": "^5.0.0",
+    "gulp": "^4.0.2",
+    "gulp-pug": "^4.0.1"
+  },
+  "dependencies": {
+    "bemto.pug": "^2.1.0"
+  }
+}
