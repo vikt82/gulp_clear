@@ -1,0 +1,20 @@
+{
+    "nav": {
+        "links": [
+            {
+                "href": "/link1",
+                "displayName": "Home"
+            },
+
+            {
+                "href": "/link2",
+                "displayName": "About"
+            },
+
+            {
+                "href": "/link3",
+                "displayName": "Contact"
+            }
+        ]
+    }
+}
