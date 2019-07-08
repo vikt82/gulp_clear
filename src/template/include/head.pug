@@ -1,4 +1,5 @@
 include ../../../node_modules/bemto.pug/bemto.pug
+include ../mixin/mixin.pug
 
 <!DOCTYPE html>
 html(lang="en")
@@ -9,7 +10,9 @@ html(lang="en")
         block title
 
         block style
-            link(rel="stylesheet", href="style.css")
+            //- link(rel="stylesheet", href="style.css")
+        
+        link(rel="stylesheet", href="style.css")
 
     block variable
 
@@ -17,4 +20,5 @@ html(lang="en")
         block content
 
         block script
-            script(src="js/main.js")
+            //- script(src="")
+        script(src="js/main.js")

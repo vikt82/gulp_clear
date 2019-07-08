@@ -311,5 +311,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,webstorm,jetbrains+all,visualstudiocode
+dev/
+build/
 
 package-lock.json
