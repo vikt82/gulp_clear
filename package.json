@@ -18,11 +18,22 @@
   },
   "homepage": "https://github.com/vikt82/gulp_clear#readme",
   "devDependencies": {
+    "autoprefixer": "^9.6.1",
+    "css-mqpacker": "^7.0.0",
+    "cssnano": "^4.1.10",
     "del": "^5.0.0",
     "fs": "0.0.1-security",
     "gulp": "^4.0.2",
     "gulp-data": "^1.3.1",
-    "gulp-pug": "^4.0.1"
+    "gulp-postcss": "^8.0.0",
+    "gulp-pug": "^4.0.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "node-sass": "^4.12.0",
+    "npm": "^6.10.0",
+    "postcss-normalize": "^8.0.1",
+    "postcss-pr": "^1.1.0",
+    "rucksack-css": "^1.0.2"
   },
   "dependencies": {
     "bemto.pug": "^2.1.0"

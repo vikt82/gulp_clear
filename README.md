@@ -3,7 +3,7 @@
 
 ## Pug (ex Jade)
 ```
-npm install --save-dev gulp del gulp-pug gulp-data fs
+npm install --save-dev gulp del gulp-pug gulp-data fs node-sass gulp-sass gulp-sourcemaps gulp-postcss autoprefixer css-mqpacker postcss-pr postcss-normalize
 ```
 - ### Pug (ex Jade) -- bemto
 ```
