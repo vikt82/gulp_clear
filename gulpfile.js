@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var browserSync = require('browser-sync').create();
 
 // template
 var pug = require('gulp-pug'),
@@ -50,7 +51,7 @@ gulp.task('sass', function () {
   var plugins = [
     postcssNormalize({
       "browserslist": "last 5 versions",
-      forceImport: false
+      forceImport: true
     }),
     autoprefixer(
       "last 5 version",
@@ -74,7 +75,7 @@ gulp.task('sass:build', function () {
   var plugins = [
     postcssNormalize({
       "browserslist": "last 5 versions",
-      forceImport: false
+      forceImport: true
     }),
     autoprefixer(
       "last 5 version",
@@ -107,4 +108,13 @@ gulp.task('zip', function() {
   return gulp.src('./build/**')
   .pipe(zip('archive.zip', 'modifiedTime'))
   .pipe(gulp.dest('.'))
+});
+
+gulp.task('serve', function() {
+
+  browserSync.init({
+      server: "./dev"
+  });
+
+  gulp.watch("./dev/").on('change', browserSync.reload);
 });

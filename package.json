@@ -19,6 +19,7 @@
   "homepage": "https://github.com/vikt82/gulp_clear#readme",
   "devDependencies": {
     "autoprefixer": "^9.6.1",
+    "browser-sync": "^2.26.7",
     "css-mqpacker": "^7.0.0",
     "cssnano": "^4.1.10",
     "del": "^5.0.0",
