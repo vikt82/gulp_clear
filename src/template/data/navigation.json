@@ -14,14 +14,6 @@
             {
                 "href": "/link3",
                 "displayName": "Contact"
-            },
-            {
-                "href": "/link4",
-                "displayName": "Blog"
-            },
-            {
-                "href": "/link5",
-                "displayName": "Testimonials"
             }
         ]
     }

@@ -25,13 +25,17 @@ var pug = require('gulp-pug');
 var data = require('gulp-data');
 var fs = require('fs');
 
+// Assets
+var imagemin = require('gulp-imagemin');
+var webp = require('gulp-webp');
+
 
 // PATH
 var path = {
   style: {
     src: './src/style/style.scss',
     dev: './dev/css',
-    watch: './src/style/**/*.*'
+    watch: './src/style/**/*.{scss,sass}'
   },
   styleBuild: {
     src: './src/style/style.scss',
@@ -41,6 +45,16 @@ var path = {
     src: ['./src/template/*.pug'],
     dev: './dev',
     watch: './src/template/**/*.*'
+  },
+  assets: {
+    src: './src/assets/img/**/*.{jpg,jpeg,png}',
+    dev: './dev/img/',
+    watch: './src/assets/**/*.*'
+  },
+  svg: {
+    src: './src/assets/svg/**/*.svg',
+    dev: './dev/img/svg',
+    watch: './src/assets/svg/*.svg'
   }
 }
 
@@ -94,6 +108,7 @@ function styleBuild() {
   .pipe(gulp.dest(path.styleBuild.dev));
 }
 
+// Pug
 function template() {
   return gulp.src(path.pug.src)
   .pipe(data(function(file) {
@@ -108,6 +123,52 @@ function template() {
   .pipe(gulp.dest(path.pug.dev))
 }
 
+// Assets
+function assets() {
+  return gulp.src(path.assets.src)
+  .pipe(gulp.dest(path.assets.dev))
+}
+function assetsWebp() {
+  return gulp.src(path.assets.src)
+  .pipe(webp())
+  .pipe(gulp.dest(path.assets.dev))
+}
+
+function assetsSvg() {
+  return gulp.src(path.svg.src)
+  .pipe(gulp.dest(path.svg.dev))
+}
+
+function assetsBuild() {
+  return gulp.src(path.assets.src)
+  .pipe(imagemin({
+    interlaced: true,
+    progressive: true,
+    optimizationLevel: 5,
+    svgoPlugins: [
+        {
+            removeViewBox: true
+        }
+    ]
+  }))
+  .pipe(gulp.dest(path.assets.dev))
+}
+function assetsWebpBuild() {
+  return gulp.src(path.assets.src)
+  .pipe(imagemin({
+    interlaced: true,
+    progressive: true,
+    optimizationLevel: 5,
+    svgoPlugins: [
+        {
+            removeViewBox: true
+        }
+    ]
+  }))
+  .pipe(webp())
+  .pipe(gulp.dest(path.assets.dev))
+}
+
 // clean dev folder
 function clean() {
   return del('./dev');
@@ -117,14 +178,27 @@ function clean() {
 function watch() {
   gulp.watch(path.pug.watch, template);
   gulp.watch(path.style.watch, style);
+
+  gulp.watch(path.assets.watch, assets);
+  gulp.watch(path.assets.watch, assetsWebp);
+  gulp.watch(path.svg.watch, assetsSvg);
 }
 
-var dev = gulp.series(clean, gulp.parallel(style, template, watch));
+var dev = gulp.series(clean, gulp.parallel(style, template, assets, assetsWebp, assetsSvg, watch));
 
 exports.clean = clean;
+
 exports.style = style;
 exports.styleBuild = styleBuild;
+
 exports.template = template;
+
+exports.assets = assets;
+exports.assetsWebp = assetsWebp;
+exports.assetsBuild = assetsBuild;
+exports.assetsWebpBuild = assetsWebpBuild;
+exports.assetsSvg = assetsSvg;
+
 exports.watch = watch;
 exports.dev = dev;
 
