@@ -1,29 +1,18 @@
 {
   "name": "gulp_clear",
   "version": "1.0.0",
-  "description": "---",
-  "main": "gulpfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vikt82/gulp_clear.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/vikt82/gulp_clear/issues"
-  },
-  "homepage": "https://github.com/vikt82/gulp_clear#readme",
-  "devDependencies": {
+  "main": "index.js",
+  "repository": "https://github.com/vikt82/gulp_clear.git",
+  "author": "Victor V. <offcre.vikt@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
     "autoprefixer": "^9.6.1",
+    "bemto.pug": "^2.1.0",
     "browser-sync": "^2.26.7",
     "css-mqpacker": "^7.0.0",
     "cssnano": "^4.1.10",
     "del": "^5.0.0",
-    "fs": "0.0.1-security",
+    "fs": "^0.0.1-security",
     "gulp": "^4.0.2",
     "gulp-data": "^1.3.1",
     "gulp-postcss": "^8.0.0",
@@ -32,14 +21,10 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-zip": "^5.0.0",
     "node-sass": "^4.12.0",
-    "npm": "^6.10.0",
     "postcss-font-magician": "^2.2.2",
     "postcss-normalize": "^8.0.1",
     "postcss-pr": "^1.1.0",
     "postcss-zindex": "^4.0.1",
     "rucksack-css": "^1.0.2"
-  },
-  "dependencies": {
-    "bemto.pug": "^2.1.0"
   }
 }

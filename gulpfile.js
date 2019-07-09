@@ -1,39 +1,101 @@
 'use strict';
 
 var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
-
-// template
-var pug = require('gulp-pug'),
-    data = require('gulp-data'),
-    fs = require('fs');
-
-// Style
-var sass = require('gulp-sass'),
-    sourcemaps = require('gulp-sourcemaps'),
-    postcss = require('gulp-postcss'),
-    // postcss plugins
-    postcssNormalize = require('postcss-normalize'),
-    autoprefixer = require('autoprefixer'),
-    rucksack = require('rucksack-css'),
-    mqpacker = require('css-mqpacker'),
-    cssnano = require('cssnano'),
-    zindex = require('postcss-zindex'),
-    postcsspr = require('postcss-pr'),
-    postcssFontMagician = require('postcss-font-magician');
-
-sass.compiler = require('node-sass');
 
 // Clear
 var del = require('del');
 
-// ZIP
-var zip = require('gulp-zip');
+// style
+var sass = require('gulp-sass');
+var postcss = require('gulp-postcss');
+var postcssNormalize = require('postcss-normalize');
+var autoprefixer = require('autoprefixer');
+var rucksack = require('rucksack-css');
+var mqpacker = require('css-mqpacker');
+var postcsspr = require('postcss-pr');
+var zindex = require('postcss-zindex');
+var postcssFontMagician = require('postcss-font-magician');
+var cssnano = require('cssnano');
+sass.compiler = require('node-sass');
+
+var sourcemaps = require('gulp-sourcemaps');
+
+// template
+var pug = require('gulp-pug');
+var data = require('gulp-data');
+var fs = require('fs');
 
 
-// TEMPLATE
-gulp.task('pug', function() {
-  return gulp.src('./src/template/*.pug')
+// PATH
+var path = {
+  style: {
+    src: './src/style/style.scss',
+    dev: './dev/css',
+    watch: './src/style/**/*.*'
+  },
+  styleBuild: {
+    src: './src/style/style.scss',
+    dev: './build/css',
+  },
+  pug: {
+    src: ['./src/template/*.pug'],
+    dev: './dev',
+    watch: './src/template/**/*.*'
+  }
+}
+
+// style
+function style() {
+  var plugins = [
+        postcssNormalize({
+          "browserslist": "last 5 versions",
+          forceImport: true
+        }),
+        autoprefixer(
+          "last 5 version",
+          "> 5%"
+        ),
+        rucksack(),
+        mqpacker(),
+        postcsspr(),
+        zindex(),
+        postcssFontMagician(),
+        // cssnano(),
+      ];
+  return gulp.src(path.style.src)
+  .pipe(sourcemaps.init())
+  .pipe(sass().on('error', sass.logError))
+  .pipe(postcss(plugins))
+  .pipe(sourcemaps.write('.'))
+  .pipe(gulp.dest(path.style.dev));
+}
+function styleBuild() {
+  var plugins = [
+        postcssNormalize({
+          "browserslist": "last 5 versions",
+          forceImport: true
+        }),
+        autoprefixer(
+          "last 5 version",
+          "> 5%"
+        ),
+        rucksack(),
+        mqpacker(),
+        postcsspr(),
+        zindex(),
+        postcssFontMagician(),
+        cssnano(),
+      ];
+  return gulp.src(path.styleBuild.src)
+  // .pipe(sourcemaps.init())
+  .pipe(sass().on('error', sass.logError))
+  .pipe(postcss(plugins))
+  // .pipe(sourcemaps.write('.'))
+  .pipe(gulp.dest(path.styleBuild.dev));
+}
+
+function template() {
+  return gulp.src(path.pug.src)
   .pipe(data(function(file) {
     return {
       data: JSON.parse(fs.readFileSync('./src/template/data/data.json', 'utf8')),
@@ -43,78 +105,27 @@ gulp.task('pug', function() {
   .pipe(pug({
     pretty: true
   }))
-  .pipe(gulp.dest('dev/'));
-});
+  .pipe(gulp.dest(path.pug.dev))
+}
 
-// START: Style
-gulp.task('sass', function () {
-  var plugins = [
-    postcssNormalize({
-      "browserslist": "last 5 versions",
-      forceImport: true
-    }),
-    autoprefixer(
-      "last 5 version",
-      "> 5%"
-    ),
-    rucksack(),
-    mqpacker(),
-    postcsspr(),
-    zindex(),
-    postcssFontMagician(),
-    // cssnano(),
-  ];
-  return gulp.src(['./src/scss/**/*scss', './src/scss/**/*sass'])
-    .pipe(sourcemaps.init())
-    .pipe(sass().on('error', sass.logError))
-    .pipe(postcss(plugins))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./dev/css'));
-});
-gulp.task('sass:build', function () {
-  var plugins = [
-    postcssNormalize({
-      "browserslist": "last 5 versions",
-      forceImport: true
-    }),
-    autoprefixer(
-      "last 5 version",
-      "> 5%"
-    ),
-    rucksack(),
-    mqpacker(),
-    postcsspr(),
-    zindex(),
-    postcssFontMagician(),
-    cssnano(),
-  ];
-  return gulp.src(['./src/scss/**/*scss', './src/scss/**/*sass'])
-    // .pipe(sourcemaps.init())
-    .pipe(sass().on('error', sass.logError))
-    .pipe(postcss(plugins))
-    // .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./build/css'));
-});
+// clean dev folder
+function clean() {
+  return del('./dev');
+}
 
-// END: Style
+// Watch
+function watch() {
+  gulp.watch(path.pug.watch, template);
+  gulp.watch(path.style.watch, style);
+}
 
-// Clear "DEV/" folder
-gulp.task('del', function(){
-  return del(['./dev', 'archive.zip'])
-});
+var dev = gulp.series(clean, gulp.parallel(style, template, watch));
 
-// ZIP
-gulp.task('zip', function() {
-  return gulp.src('./build/**')
-  .pipe(zip('archive.zip', 'modifiedTime'))
-  .pipe(gulp.dest('.'))
-});
+exports.clean = clean;
+exports.style = style;
+exports.styleBuild = styleBuild;
+exports.template = template;
+exports.watch = watch;
+exports.dev = dev;
 
-gulp.task('serve', function() {
-
-  browserSync.init({
-      server: "./dev"
-  });
-
-  gulp.watch("./dev/").on('change', browserSync.reload);
-});
+exports.default = dev;

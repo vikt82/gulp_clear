@@ -315,3 +315,4 @@ dev/
 build/
 *.zip
 package-lock.json
+yarn.lock
