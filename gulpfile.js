@@ -15,8 +15,11 @@ var sass = require('gulp-sass'),
     postcssNormalize = require('postcss-normalize'),
     autoprefixer = require('autoprefixer'),
     rucksack = require('rucksack-css'),
-    mqpacker = require("css-mqpacker"),
-    pr = require('postcss-pr');
+    mqpacker = require('css-mqpacker'),
+    cssnano = require('cssnano'),
+    zindex = require('postcss-zindex'),
+    postcsspr = require('postcss-pr'),
+    postcssFontMagician = require('postcss-font-magician');
 
 sass.compiler = require('node-sass');
 
@@ -38,12 +41,12 @@ gulp.task('pug', function() {
   .pipe(gulp.dest('dev/'));
 });
 
-// Style
+// START: Style
 gulp.task('sass', function () {
   var plugins = [
     postcssNormalize({
       "browserslist": "last 5 versions",
-      forceImport: true
+      forceImport: false
     }),
     autoprefixer(
       "last 5 version",
@@ -51,15 +54,44 @@ gulp.task('sass', function () {
     ),
     rucksack(),
     mqpacker(),
-    pr(),
+    postcsspr(),
+    zindex(),
+    postcssFontMagician(),
+    // cssnano(),
   ];
   return gulp.src(['./src/scss/**/*scss', './src/scss/**/*sass'])
     .pipe(sourcemaps.init())
-    .pipe(postcss(plugins))
     .pipe(sass().on('error', sass.logError))
+    .pipe(postcss(plugins))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dev/css'));
 });
+gulp.task('sass:build', function () {
+  var plugins = [
+    postcssNormalize({
+      "browserslist": "last 5 versions",
+      forceImport: false
+    }),
+    autoprefixer(
+      "last 5 version",
+      "> 5%"
+    ),
+    rucksack(),
+    mqpacker(),
+    postcsspr(),
+    zindex(),
+    postcssFontMagician(),
+    cssnano(),
+  ];
+  return gulp.src(['./src/scss/**/*scss', './src/scss/**/*sass'])
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(postcss(plugins))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('./build/css'));
+});
+
+// END: Style
 
 // Clear "DEV/" folder
 gulp.task('del', function(){

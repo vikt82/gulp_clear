@@ -31,8 +31,10 @@
     "gulp-sourcemaps": "^2.6.5",
     "node-sass": "^4.12.0",
     "npm": "^6.10.0",
+    "postcss-font-magician": "^2.2.2",
     "postcss-normalize": "^8.0.1",
     "postcss-pr": "^1.1.0",
+    "postcss-zindex": "^4.0.1",
     "rucksack-css": "^1.0.2"
   },
   "dependencies": {
