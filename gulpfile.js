@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var browserSync = require('browser-sync').create();
 
 // Clear
 var del = require('del');
@@ -58,6 +59,14 @@ var path = {
   }
 }
 
+function sync() {
+  browserSync.init({
+    open: false,
+    notify: true,
+    server: "./dev"
+  });
+}
+
 // style
 function style() {
   var plugins = [
@@ -81,7 +90,8 @@ function style() {
   .pipe(sass().on('error', sass.logError))
   .pipe(postcss(plugins))
   .pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest(path.style.dev));
+  .pipe(gulp.dest(path.style.dev))
+  .pipe(browserSync.stream());
 }
 function styleBuild() {
   var plugins = [
@@ -121,22 +131,26 @@ function template() {
     pretty: true
   }))
   .pipe(gulp.dest(path.pug.dev))
+  .pipe(browserSync.stream());
 }
 
 // Assets
 function assets() {
   return gulp.src(path.assets.src)
   .pipe(gulp.dest(path.assets.dev))
+  .pipe(browserSync.stream());
 }
 function assetsWebp() {
   return gulp.src(path.assets.src)
   .pipe(webp())
   .pipe(gulp.dest(path.assets.dev))
+  .pipe(browserSync.stream());
 }
 
 function assetsSvg() {
   return gulp.src(path.svg.src)
   .pipe(gulp.dest(path.svg.dev))
+  .pipe(browserSync.stream());
 }
 
 function assetsBuild() {
@@ -151,7 +165,7 @@ function assetsBuild() {
         }
     ]
   }))
-  .pipe(gulp.dest(path.assets.dev))
+  .pipe(gulp.dest(path.assets.dev));
 }
 function assetsWebpBuild() {
   return gulp.src(path.assets.src)
@@ -184,7 +198,7 @@ function watch() {
   gulp.watch(path.svg.watch, assetsSvg);
 }
 
-var dev = gulp.series(clean, gulp.parallel(style, template, assets, assetsWebp, assetsSvg, watch));
+var dev = gulp.series(clean, gulp.parallel(style, template, assets, assetsWebp, assetsSvg, watch, sync));
 
 exports.clean = clean;
 
@@ -199,6 +213,7 @@ exports.assetsBuild = assetsBuild;
 exports.assetsWebpBuild = assetsWebpBuild;
 exports.assetsSvg = assetsSvg;
 
+exports.sync = sync;
 exports.watch = watch;
 exports.dev = dev;
 
