@@ -5,6 +5,7 @@ var browserSync = require('browser-sync').create();
 
 // Clear
 var del = require('del');
+var zip = require('gulp-zip');
 
 // style
 var sass = require('gulp-sass');
@@ -42,14 +43,28 @@ var path = {
     src: './src/style/style.scss',
     dev: './build/css',
   },
+  styleBuildMin: {
+    src: './src/style/style.scss',
+    dev: './build/css/min',
+  },
   pug: {
     src: ['./src/template/*.pug'],
     dev: './dev',
     watch: './src/template/**/*.*'
   },
+  pugBuild: {
+    src: ['./src/template/*.pug'],
+    dev: './build',
+    watch: './src/template/**/*.*'
+  },
   assets: {
     src: './src/assets/img/**/*.{jpg,jpeg,png}',
     dev: './dev/img/',
+    watch: './src/assets/**/*.*'
+  },
+  assetsBuild: {
+    src: './src/assets/img/**/*.{jpg,jpeg,png}',
+    dev: './build/img/',
     watch: './src/assets/**/*.*'
   },
   svg: {
@@ -93,7 +108,32 @@ function style() {
   .pipe(gulp.dest(path.style.dev))
   .pipe(browserSync.stream());
 }
+
 function styleBuild() {
+  var plugins = [
+        postcssNormalize({
+          "browserslist": "last 5 versions",
+          forceImport: true
+        }),
+        autoprefixer(
+          "last 5 version",
+          "> 5%"
+        ),
+        rucksack(),
+        mqpacker(),
+        postcsspr(),
+        zindex(),
+        postcssFontMagician(),
+        // cssnano(),
+      ];
+  return gulp.src(path.styleBuild.src)
+  // .pipe(sourcemaps.init())
+  .pipe(sass().on('error', sass.logError))
+  .pipe(postcss(plugins))
+  // .pipe(sourcemaps.write('.'))
+  .pipe(gulp.dest(path.styleBuild.dev));
+}
+function styleBuildMin() {
   var plugins = [
         postcssNormalize({
           "browserslist": "last 5 versions",
@@ -110,12 +150,12 @@ function styleBuild() {
         postcssFontMagician(),
         cssnano(),
       ];
-  return gulp.src(path.styleBuild.src)
+  return gulp.src(path.styleBuildMin.src)
   // .pipe(sourcemaps.init())
   .pipe(sass().on('error', sass.logError))
   .pipe(postcss(plugins))
   // .pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest(path.styleBuild.dev));
+  .pipe(gulp.dest(path.styleBuildMin.dev));
 }
 
 // Pug
@@ -131,6 +171,20 @@ function template() {
     pretty: true
   }))
   .pipe(gulp.dest(path.pug.dev))
+  .pipe(browserSync.stream());
+}
+function templateBuild() {
+  return gulp.src(path.pugBuild.src)
+  .pipe(data(function(file) {
+    return {
+      data: JSON.parse(fs.readFileSync('./src/template/data/data.json', 'utf8')),
+      navigation: JSON.parse(fs.readFileSync('./src/template/data/navigation.json', 'utf8'))
+    }
+  }))
+  .pipe(pug({
+    pretty: true
+  }))
+  .pipe(gulp.dest(path.pugBuild.dev))
   .pipe(browserSync.stream());
 }
 
@@ -154,7 +208,7 @@ function assetsSvg() {
 }
 
 function assetsBuild() {
-  return gulp.src(path.assets.src)
+  return gulp.src(path.assetsBuild.src)
   .pipe(imagemin({
     interlaced: true,
     progressive: true,
@@ -165,10 +219,10 @@ function assetsBuild() {
         }
     ]
   }))
-  .pipe(gulp.dest(path.assets.dev));
+  .pipe(gulp.dest(path.assetsBuild.dev));
 }
 function assetsWebpBuild() {
-  return gulp.src(path.assets.src)
+  return gulp.src(path.assetsBuild.src)
   .pipe(imagemin({
     interlaced: true,
     progressive: true,
@@ -180,17 +234,25 @@ function assetsWebpBuild() {
     ]
   }))
   .pipe(webp())
-  .pipe(gulp.dest(path.assets.dev))
+  .pipe(gulp.dest(path.assetsBuild.dev))
 }
 
 // clean dev folder
 function clean() {
-  return del('./dev');
+  return del(['./dev', './build']);
+}
+
+// zip
+function arch() {
+  return gulp.src('build/**/*.*')
+  .pipe(zip('build.zip', Date))
+  .pipe(gulp.dest('.'));
 }
 
 // Watch
 function watch() {
   gulp.watch(path.pug.watch, template);
+
   gulp.watch(path.style.watch, style);
 
   gulp.watch(path.assets.watch, assets);
@@ -199,13 +261,18 @@ function watch() {
 }
 
 var dev = gulp.series(clean, gulp.parallel(style, template, assets, assetsWebp, assetsSvg, watch, sync));
+var build =  gulp.parallel(styleBuild, styleBuildMin, templateBuild, assetsBuild, assetsWebpBuild);
 
 exports.clean = clean;
 
+gulp.task(arch);
+
 exports.style = style;
 exports.styleBuild = styleBuild;
+exports.styleBuildMin = styleBuildMin;
 
 exports.template = template;
+exports.templateBuild = templateBuild;
 
 exports.assets = assets;
 exports.assetsWebp = assetsWebp;
@@ -218,3 +285,4 @@ exports.watch = watch;
 exports.dev = dev;
 
 exports.default = dev;
+exports.build = build;
