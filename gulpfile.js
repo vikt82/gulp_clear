@@ -1,5 +1,4 @@
 'use strict';
-
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
 
@@ -43,7 +42,8 @@ gulp.task('pug', function() {
   .pipe(pug({
     pretty: true
   }))
-  .pipe(gulp.dest('dev/'));
+  .pipe(gulp.dest('dev/'))
+  .pipe(browserSync.stream());
 });
 
 // START: Style
@@ -64,12 +64,13 @@ gulp.task('sass', function () {
     postcssFontMagician(),
     // cssnano(),
   ];
-  return gulp.src(['./src/scss/**/*scss', './src/scss/**/*sass'])
+  return gulp.src(['./src/scss/**/*.scss', './src/scss/**/*.sass'])
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(postcss(plugins))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./dev/css'));
+    .pipe(gulp.dest('./dev/css'))
+    .pipe(browserSync.stream());
 });
 gulp.task('sass:build', function () {
   var plugins = [
@@ -88,7 +89,7 @@ gulp.task('sass:build', function () {
     postcssFontMagician(),
     cssnano(),
   ];
-  return gulp.src(['./src/scss/**/*scss', './src/scss/**/*sass'])
+  return gulp.src(['./src/scss/**/*.scss', './src/scss/**/*.sass'])
     // .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(postcss(plugins))
@@ -110,11 +111,20 @@ gulp.task('zip', function() {
   .pipe(gulp.dest('.'))
 });
 
-gulp.task('serve', function() {
+gulp.task('sync', function() {
 
   browserSync.init({
+      watch: true,
+      open: false,
+      notify: true,
       server: "./dev"
   });
 
-  gulp.watch("./dev/").on('change', browserSync.reload);
+  gulp.watch("./dev/*.*").on('change', browserSync.reload);
+});
+
+
+
+gulp.task('watch', function () {
+  gulp.watch(['./src/scss/**/*.scss', './src/scss/**/*.sass'], sass);
 });
