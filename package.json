@@ -29,6 +29,7 @@
     "gulp-pug": "^4.0.1",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
+    "gulp-zip": "^5.0.0",
     "node-sass": "^4.12.0",
     "npm": "^6.10.0",
     "postcss-font-magician": "^2.2.2",

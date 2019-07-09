@@ -26,6 +26,10 @@ sass.compiler = require('node-sass');
 // Clear
 var del = require('del');
 
+// ZIP
+var zip = require('gulp-zip');
+
+
 // TEMPLATE
 gulp.task('pug', function() {
   return gulp.src('./src/template/*.pug')
@@ -84,10 +88,10 @@ gulp.task('sass:build', function () {
     cssnano(),
   ];
   return gulp.src(['./src/scss/**/*scss', './src/scss/**/*sass'])
-    .pipe(sourcemaps.init())
+    // .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(postcss(plugins))
-    .pipe(sourcemaps.write('.'))
+    // .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./build/css'));
 });
 
@@ -95,5 +99,12 @@ gulp.task('sass:build', function () {
 
 // Clear "DEV/" folder
 gulp.task('del', function(){
-  return del('./dev')
+  return del(['./dev', 'archive.zip'])
+});
+
+// ZIP
+gulp.task('zip', function() {
+  return gulp.src('./build/**')
+  .pipe(zip('archive.zip', 'modifiedTime'))
+  .pipe(gulp.dest('.'))
 });
