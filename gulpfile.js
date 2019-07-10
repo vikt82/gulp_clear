@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
+var plumber = require('gulp-plumber');
 
 // Clear
 var del = require('del');
@@ -87,7 +88,7 @@ function style() {
   var plugins = [
         postcssNormalize({
           "browserslist": "last 5 versions",
-          forceImport: true
+          forceImport: false
         }),
         autoprefixer(
           "last 5 version",
@@ -101,6 +102,7 @@ function style() {
         // cssnano(),
       ];
   return gulp.src(path.style.src)
+  .pipe(plumber())
   .pipe(sourcemaps.init())
   .pipe(sass().on('error', sass.logError))
   .pipe(postcss(plugins))
@@ -127,6 +129,7 @@ function styleBuild() {
         // cssnano(),
       ];
   return gulp.src(path.styleBuild.src)
+  .pipe(plumber())
   // .pipe(sourcemaps.init())
   .pipe(sass().on('error', sass.logError))
   .pipe(postcss(plugins))
@@ -151,6 +154,7 @@ function styleBuildMin() {
         cssnano(),
       ];
   return gulp.src(path.styleBuildMin.src)
+  .pipe(plumber())
   // .pipe(sourcemaps.init())
   .pipe(sass().on('error', sass.logError))
   .pipe(postcss(plugins))
@@ -161,6 +165,7 @@ function styleBuildMin() {
 // Pug
 function template() {
   return gulp.src(path.pug.src)
+  .pipe(plumber())
   .pipe(data(function(file) {
     return {
       data: JSON.parse(fs.readFileSync('./src/template/data/data.json', 'utf8')),
@@ -175,6 +180,7 @@ function template() {
 }
 function templateBuild() {
   return gulp.src(path.pugBuild.src)
+  .pipe(plumber())
   .pipe(data(function(file) {
     return {
       data: JSON.parse(fs.readFileSync('./src/template/data/data.json', 'utf8')),
@@ -191,11 +197,13 @@ function templateBuild() {
 // Assets
 function assets() {
   return gulp.src(path.assets.src)
+  .pipe(plumber())
   .pipe(gulp.dest(path.assets.dev))
   .pipe(browserSync.stream());
 }
 function assetsWebp() {
   return gulp.src(path.assets.src)
+  .pipe(plumber())
   .pipe(webp())
   .pipe(gulp.dest(path.assets.dev))
   .pipe(browserSync.stream());
@@ -203,12 +211,14 @@ function assetsWebp() {
 
 function assetsSvg() {
   return gulp.src(path.svg.src)
+  .pipe(plumber())
   .pipe(gulp.dest(path.svg.dev))
   .pipe(browserSync.stream());
 }
 
 function assetsBuild() {
   return gulp.src(path.assetsBuild.src)
+  .pipe(plumber())
   .pipe(imagemin({
     interlaced: true,
     progressive: true,
@@ -223,6 +233,7 @@ function assetsBuild() {
 }
 function assetsWebpBuild() {
   return gulp.src(path.assetsBuild.src)
+  .pipe(plumber())
   .pipe(imagemin({
     interlaced: true,
     progressive: true,
