@@ -6,7 +6,7 @@
 npm install --save-dev gulp del gulp-pug gulp-data fs node-sass gulp-sass gulp-sourcemaps gulp-postcss autoprefixer css-mqpacker postcss-pr postcss-normalize cssnano rucksack-css postcss-zindex postcss-font-magician browser-sync gulp-zip
 ```
 ```
-yarn add gulp del gulp-pug gulp-data fs node-sass gulp-sass gulp-sourcemaps gulp-postcss autoprefixer css-mqpacker postcss-pr postcss-normalize cssnano rucksack-css postcss-zindex postcss-font-magician browser-sync gulp-zip bemto.pug gulp-imagemin gulp-webp
+yarn add gulp del gulp-pug gulp-data fs node-sass gulp-sass gulp-sourcemaps gulp-postcss autoprefixer css-mqpacker postcss-pr postcss-normalize cssnano rucksack-css postcss-zindex postcss-font-magician browser-sync gulp-zip bemto.pug gulp-imagemin gulp-webp gulp-plumber
 ```
 - ### Pug (ex Jade) -- bemto
 ```
