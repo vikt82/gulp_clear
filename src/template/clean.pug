@@ -1,4 +1,7 @@
 extends include/head.pug
+//- includes
+include ./include/header.pug
+include ./include/footer.pug
 
 block title 
     title Document Title
@@ -8,9 +11,7 @@ block variable
     - var pageContainerClass = 'page'
 
 block content
-    include ./include/header.pug
-
     +b(class=pageContainerClass)
-        +e.H1(style='text-align: center;') Clear
+        +header()
 
-    include ./include/footer.pug
+        +footer() 
