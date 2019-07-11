@@ -124,15 +124,16 @@ function styleBuild() {
   ];
   return (
     gulp
-      .src(path.styleBuild.src)
-      .pipe(plumber())
-      // .pipe(sourcemaps.init())
-      .pipe(sass().on('error', sass.logError))
-      .pipe(postcss(plugins))
-      // .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest(path.styleBuild.dev))
+    .src(path.styleBuild.src)
+    .pipe(plumber())
+    // .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(postcss(plugins))
+    // .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(path.styleBuild.dev))
   );
 }
+
 function styleBuildMin() {
   var plugins = [
     postcssNormalize({
@@ -149,13 +150,13 @@ function styleBuildMin() {
   ];
   return (
     gulp
-      .src(path.styleBuildMin.src)
-      .pipe(plumber())
-      // .pipe(sourcemaps.init())
-      .pipe(sass().on('error', sass.logError))
-      .pipe(postcss(plugins))
-      // .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest(path.styleBuildMin.dev))
+    .src(path.styleBuildMin.src)
+    .pipe(plumber())
+    // .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(postcss(plugins))
+    // .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(path.styleBuildMin.dev))
   );
 }
 
@@ -165,7 +166,7 @@ function template() {
     .src(path.pug.src)
     .pipe(plumber())
     .pipe(
-      data(function(file) {
+      data(function (file) {
         return {
           data: JSON.parse(
             fs.readFileSync('./src/template/data/data.json', 'utf8')
@@ -184,12 +185,13 @@ function template() {
     .pipe(gulp.dest(path.pug.dev))
     .pipe(browserSync.stream());
 }
+
 function templateBuild() {
   return gulp
     .src(path.pugBuild.src)
     .pipe(plumber())
     .pipe(
-      data(function(file) {
+      data(function (file) {
         return {
           data: JSON.parse(
             fs.readFileSync('./src/template/data/data.json', 'utf8')
@@ -217,6 +219,7 @@ function assets() {
     .pipe(gulp.dest(path.assets.dev))
     .pipe(browserSync.stream());
 }
+
 function assetsWebp() {
   return gulp
     .src(path.assets.src)
@@ -243,15 +246,14 @@ function assetsBuild() {
         interlaced: true,
         progressive: true,
         optimizationLevel: 5,
-        svgoPlugins: [
-          {
-            removeViewBox: true,
-          },
-        ],
+        svgoPlugins: [{
+          removeViewBox: true,
+        }, ],
       })
     )
     .pipe(gulp.dest(path.assetsBuild.dev));
 }
+
 function assetsWebpBuild() {
   return gulp
     .src(path.assetsBuild.src)
@@ -261,11 +263,9 @@ function assetsWebpBuild() {
         interlaced: true,
         progressive: true,
         optimizationLevel: 5,
-        svgoPlugins: [
-          {
-            removeViewBox: true,
-          },
-        ],
+        svgoPlugins: [{
+          removeViewBox: true,
+        }, ],
       })
     )
     .pipe(webp())
@@ -280,8 +280,8 @@ function clean() {
 // zip
 function arch() {
   return gulp.src('build/**/*.*')
-  .pipe(zip('build.zip'))
-  .pipe(gulp.dest('.'));
+    .pipe(zip('build.zip'))
+    .pipe(gulp.dest('.'));
 }
 
 // Watch
