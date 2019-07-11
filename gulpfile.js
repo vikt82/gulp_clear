@@ -256,7 +256,7 @@ function clean() {
 // zip
 function arch() {
   return gulp.src('build/**/*.*')
-  .pipe(zip('build.zip', Date))
+  .pipe(zip('build.zip'))
   .pipe(gulp.dest('.'));
 }
 
