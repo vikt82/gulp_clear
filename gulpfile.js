@@ -19,6 +19,7 @@ var postcsspr = require('postcss-pr');
 var zindex = require('postcss-zindex');
 var postcssFontMagician = require('postcss-font-magician');
 var cssnano = require('cssnano');
+var flexbugs = require('postcss-flexbugs-fixes');
 sass.compiler = require('node-sass');
 
 var sourcemaps = require('gulp-sourcemaps');
@@ -53,14 +54,13 @@ var path = {
     dev: './build/css/min'
   },
   pug: {
-    src: ['./src/template/*.pug', './src/components/**/*.pug'],
+    src: ['./src/template/*.pug'],
     dev: './dev',
-    watch: './src/template/**/*.*'
+    watch: ['./src/template/*.pug', './src/components/**/*.pug']
   },
   pugBuild: {
-    src: ['./src/template/*.pug', './src/components/**/*.pug'],
-    dev: './build',
-    watch: './src/template/**/*.*'
+    src: ['./src/template/*.pug'],
+    dev: './build'
   },
   assets: {
     src: './src/assets/img/**/*.{jpg,jpeg,png}',
@@ -110,6 +110,7 @@ function style() {
     postcsspr(),
     zindex(),
     postcssFontMagician(),
+    flexbugs(),
     // cssnano(),
   ];
   return gulp
@@ -135,6 +136,7 @@ function styleBuild() {
     postcsspr(),
     zindex(),
     postcssFontMagician(),
+    flexbugs(),
     // cssnano(),
   ];
   return (
@@ -161,6 +163,7 @@ function styleBuildMin() {
     postcsspr(),
     zindex(),
     postcssFontMagician(),
+    flexbugs(),
     cssnano(),
   ];
   return (

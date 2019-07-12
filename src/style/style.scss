@@ -43,11 +43,11 @@ body {
     }
 }
 
-.container {
-    max-width: 1200pr;
-    margin: 0 auto;
-    padding: 0 15pr;
-}
+// .container {
+//     max-width: 1200pr;
+//     margin: 0 auto;
+//     padding: 0 15pr;
+// }
 
 .header {
     padding: 20px 0;
@@ -66,7 +66,6 @@ body {
             margin-right: 20pr;
             color: var(--main-font-color);
             font-size: 24pr;
-
 
             svg {
                 height: 60pr;
@@ -145,6 +144,10 @@ body {
     .grid-container {
         display: grid;
         grid-template-columns: repeat(2, auto);
+
+        @media (max-width: 600px) {
+            grid-template-columns: repeat(1, auto);
+        }
 
         &__grid-item {
             padding: 20pr;
