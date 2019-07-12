@@ -1,7 +1,11 @@
 extends include/head.pug
+
 //- includes
 include ./include/header.pug
 include ./include/footer.pug
+
+//- Components
+include ../components/component/component.pug
 
 block title 
     title Document Title
@@ -93,10 +97,4 @@ block content
                         a(href="") Ab, sequi ipsum.
                         a(href="") Recusandae, ipsum!
 
-        +b.SECTION.bootstrap
-            .container
-                .row
-                    .col-3 Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium deleniti sit corrupti minima. Quae deserunt architecto rerum maxime maiores ipsum aliquam necessitatibus, quasi expedita error tempora voluptatem eligendi quidem voluptate!
-                    .col-3 Unde provident reprehenderit consequatur, a at harum exercitationem excepturi tenetur dolorem dicta ex iste asperiores error id obcaecati? Veritatis doloremque enim incidunt officiis, sed pariatur asperiores sunt rerum inventore et.
-                    .col-3 Obcaecati hic vitae molestiae recusandae perferendis repellendus sequi odio cumque eos dolor eaque, impedit placeat ad excepturi, ratione in veritatis saepe minima fugiat facere consequuntur quam? Numquam labore nulla perspiciatis.
-                    .col-3 Deleniti tempore id sint totam ex libero, velit eligendi, nisi adipisci ipsum illum aut dolorem alias eum reiciendis nesciunt amet assumenda rem explicabo laboriosam sapiente maiores et. Quo, beatae quia!
+        +component()

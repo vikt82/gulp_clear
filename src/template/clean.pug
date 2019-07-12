@@ -1,7 +1,11 @@
 extends include/head.pug
+
 //- includes
 include ./include/header.pug
 include ./include/footer.pug
+
+//- Components
+include ../components/component/component.pug
 
 block title 
     title Document Title
@@ -13,5 +17,5 @@ block variable
 block content
     +b(class=pageContainerClass)
         +header()
-
+        +component()
         +footer() 

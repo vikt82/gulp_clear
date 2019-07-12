@@ -42,50 +42,50 @@ var path = {
   style: {
     src: './src/style/style.scss',
     dev: './dev/css',
-    watch: './src/style/**/*.{scss,sass}',
+    watch: ['./src/style/**/*.{scss,sass}', './src/components/**/*.{scss,sass}']
   },
   styleBuild: {
     src: './src/style/style.scss',
-    dev: './build/css',
+    dev: './build/css'
   },
   styleBuildMin: {
     src: './src/style/style.scss',
-    dev: './build/css/min',
+    dev: './build/css/min'
   },
   pug: {
-    src: ['./src/template/*.pug'],
+    src: ['./src/template/*.pug', './src/components/**/*.pug'],
     dev: './dev',
-    watch: './src/template/**/*.*',
+    watch: './src/template/**/*.*'
   },
   pugBuild: {
-    src: ['./src/template/*.pug'],
+    src: ['./src/template/*.pug', './src/components/**/*.pug'],
     dev: './build',
-    watch: './src/template/**/*.*',
+    watch: './src/template/**/*.*'
   },
   assets: {
     src: './src/assets/img/**/*.{jpg,jpeg,png}',
     dev: './dev/img/',
-    watch: './src/assets/**/*.*',
+    watch: './src/assets/**/*.*'
   },
   assetsBuild: {
     src: './src/assets/img/**/*.{jpg,jpeg,png}',
     dev: './build/img/',
-    watch: './src/assets/**/*.*',
+    watch: './src/assets/**/*.*'
   },
   svg: {
     src: './src/assets/svg/**/*.svg',
     dev: './dev/img/svg',
-    watch: './src/assets/svg/*.svg',
+    watch: './src/assets/svg/*.svg'
   },
   script: {
     src: ['./node_modules/jquery/dist/jquery.js', './node_modules/bootstrap/dist/js/bootstrap.js', './src/assets/js/**/*.js'],
     dev: './dev/js/',
-    watch: ['./node_modules/jquery/dist/jquery.js', './node_modules/bootstrap/dist/js/bootstrap.js', './src/assets/js/**/*.js'],
+    watch: ['./node_modules/jquery/dist/jquery.js', './node_modules/bootstrap/dist/js/bootstrap.js', './src/assets/js/**/*.js']
   },
   scriptBuild: {
     src: ['./node_modules/jquery/dist/jquery.js', './node_modules/bootstrap/dist/js/bootstrap.js', './src/assets/js/**/*.js'],
     dev: './build/js/',
-    watch: ['./node_modules/jquery/dist/jquery.js', './node_modules/bootstrap/dist/js/bootstrap.js', './src/assets/js/**/*.js'],
+    watch: ['./node_modules/jquery/dist/jquery.js', './node_modules/bootstrap/dist/js/bootstrap.js', './src/assets/js/**/*.js']
   }
 };
 
@@ -298,7 +298,7 @@ function script() {
     // }))
     .pipe(concat('main.js'))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(path.script.dest))
+    .pipe(gulp.dest(path.script.dev))
     .pipe(browserSync.stream());
 }
 
