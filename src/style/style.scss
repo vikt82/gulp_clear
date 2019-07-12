@@ -2,6 +2,11 @@
 @import 'mixin/mixin';
 @import '_base';
 
+// library
+@import '../../node_modules/bootstrap/scss/bootstrap-grid.scss';
+@import '../../node_modules/bootstrap/scss/bootstrap-reboot.scss';
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
 // delete
 
 :root {
