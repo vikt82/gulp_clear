@@ -3,7 +3,7 @@
 
 ## Установка зависимостей yarn
 ```
-yarn add gulp del gulp-pug gulp-data fs node-sass gulp-sass gulp-sourcemaps gulp-postcss autoprefixer css-mqpacker postcss-pr postcss-normalize cssnano rucksack-css postcss-zindex postcss-font-magician browser-sync gulp-zip bemto.pug gulp-imagemin gulp-webp gulp-plumber gulp-jsmin gulp-rename gulp-concat postcss-flexbugs-fixes jquery bootstrap 
+yarn add gulp del gulp-pug gulp-data fs node-sass gulp-sass gulp-sourcemaps gulp-postcss autoprefixer css-mqpacker postcss-pr postcss-normalize cssnano rucksack-css postcss-zindex postcss-font-magician browser-sync gulp-zip bemto.pug gulp-imagemin gulp-webp gulp-plumber gulp-jsmin gulp-rename gulp-concat postcss-flexbugs-fixes jquery bootstrap gulp-svg-sprites gulp-svgmin gulp-cheerio gulp-replace
 ```
 
 ##### Структура проекта папка SRC

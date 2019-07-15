@@ -38,6 +38,11 @@ var jsmin = require('gulp-jsmin');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 
+var svgSprite = require('gulp-svg-sprites');
+var svgmin = require('gulp-svgmin');
+var cheerio = require('gulp-cheerio');
+var replace = require('gulp-replace');
+
 // PATH
 var path = {
   style: {
@@ -75,7 +80,7 @@ var path = {
   svg: {
     src: './src/assets/svg/**/*.svg',
     dev: './dev/img/svg',
-    watch: './src/assets/svg/*.svg'
+    watch: './src/assets/svg/**/*.svg'
   },
   script: {
     src: ['./node_modules/jquery/dist/jquery.js', './node_modules/bootstrap/dist/js/bootstrap.js', './src/assets/js/**/*.js'],
@@ -251,6 +256,21 @@ function assetsSvg() {
   return gulp
     .src(path.svg.src)
     .pipe(plumber())
+    .pipe(svgmin({
+      js2svg: {
+        pretty: true
+      }
+    }))
+    // .pipe(cheerio({
+    //   run: function ($) {
+    //     $('[fill]').removeAttr('fill');
+    //     $('[style]').removeAttr('style');
+    //   },
+    //   parserOptions: {
+    //     xmlMode: true
+    //   }
+    // }))
+    .pipe(replace('&gt;', '>'))
     .pipe(gulp.dest(path.svg.dev))
     .pipe(browserSync.stream());
 }
